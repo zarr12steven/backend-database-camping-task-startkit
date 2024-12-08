@@ -164,14 +164,14 @@ VALUES
 
 -- SELECT id, name, email
 -- FROM "USER"
--- WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io')
+-- WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io');
 
 -- 新增
 WITH user_data AS (
   SELECT email AS user_email, id
   FROM "USER"
   WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io')
-)
+),
 INSERT INTO "COACH" (user_id,experience_years)
 VALUES
   (
@@ -188,6 +188,51 @@ VALUES
     -- 1. 所有教練都有 `重訓` 專長
     -- 2. 教練`肌肉棒子` 需要有 `瑜伽` 專長
     -- 3. 教練`Q太郎` 需要有 `有氧運動` 與 `復健訓練` 專長
+
+-- 執行前，確認資料
+-- 用 email 找出 USER 表中，所對應到的 id
+-- SELECT id, name, email FROM "USER" WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io');
+-- 用 子查詢 找出 李燕容 在 COACH 表中，所對應到的 id
+-- SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io');
+-- SELECT id FROM "SKILL" WHERE name = '重訓';
+-- 用 子查詢 找出 肌肉棒子 在 COACH 表中，所對應到的 id
+-- SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io');
+-- 用 子查詢 找出 Q太郎 在 COACH 表中，所對應到的 id
+-- SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io');
+-- 查看 COACH_LINK_SKILL 表
+-- SELECT * FROM "COACH_LINK_SKILL";
+
+-- 新增
+INSERT INTO "COACH_LINK_SKILL" (coach_id,skill_id)
+VALUES
+-- 李燕容
+  (
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io')),
+    (SELECT id FROM "SKILL" WHERE name = '重訓')
+  ),
+-- 肌肉棒子
+  (
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io')),
+    (SELECT id FROM "SKILL" WHERE name = '重訓')
+  ),
+  (
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io')),
+    (SELECT id FROM "SKILL" WHERE name = '瑜伽')
+  ),
+-- Q太郎
+  (
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
+    (SELECT id FROM "SKILL" WHERE name = '重訓')
+  ),
+  (
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
+    (SELECT id FROM "SKILL" WHERE name = '有氧運動')
+  ),
+  (
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
+    (SELECT id FROM "SKILL" WHERE name = '復健訓練')
+  );
+
 
 -- 3-3 修改：更新教練的經驗年數，資料需求如下：
     -- 1. 教練`肌肉棒子` 的經驗年數為3年
