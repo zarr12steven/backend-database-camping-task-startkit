@@ -26,7 +26,7 @@ VALUES
 
 -- 1-2 修改：用 Email 找到 李燕容、肌肉棒子、Q太郎，如果他的 Role 為 USER 將他的 Role 改為 COACH
 
--- 確認前
+-- 執行前，確認資認
 -- SELECT name, email, roleDMIN
 -- FROM "USER"
 -- WHERE 
@@ -42,7 +42,7 @@ WHERE
 AND
   role = 'USER';
 
--- 確認資料
+-- 執行後，確認資料
 -- SELECT name, email, roleDMIN
 -- FROM "USER"
 -- WHERE 
@@ -51,6 +51,19 @@ AND
 --   role = 'COACH';
 
 -- 1-3 刪除：刪除USER 資料表中，用 Email 找到透明人，並刪除該筆資料
+
+-- 執行前，確認資料
+-- SELECT name, email
+-- FROM "USER"
+-- WHERE email = 'opacity0@hexschooltest.io';
+
+-- 修改
+DELETE FROM "USER"
+WHERE email = 'opacity0@hexschooltest.io';
+
+-- 執行後，確認資料
+-- SELECT *
+-- FROM "USER"
 
 -- 1-4 查詢：取得USER 資料表目前所有用戶數量（提示：使用count函式）
 
