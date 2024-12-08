@@ -94,16 +94,8 @@ LIMIT 3;
 -- 使用 CASCADE 時，所有依賴於該表的外鍵約束和其他物件（如視圖、索引）也會被刪除，請務必確認不會影響其他數據完整性
 -- DROP TABLE "CREDIT_PACKAGE" CASCADE;
 
--- 先檢查並建立資料表
-CREATE TABLE IF NOT EXISTS "CREDIT_PACKAGE" (
-    course_id SERIAL PRIMARY KEY,
-    course_name VARCHAR(100),
-    course_price NUMERIC,
-    course_count INTEGER
-);
-
 -- 新增資料
-INSERT INTO "CREDIT_PACKAGE" ("course_name", "course_price", "course_count")
+INSERT INTO "CREDIT_PACKAGE" (name, price, credit_amount)
 VALUES
   ('7 堂組合包方案', 1400, 7),
   ('14 堂組合包方案', 2520, 14),
