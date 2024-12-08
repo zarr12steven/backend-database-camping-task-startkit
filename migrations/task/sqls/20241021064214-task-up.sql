@@ -166,23 +166,28 @@ VALUES
 -- FROM "USER"
 -- WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io');
 
--- 新增
-WITH user_data AS (
-  SELECT email AS user_email, id
-  FROM "USER"
-  WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io')
-),
-INSERT INTO "COACH" (user_id,experience_years)
+-- Method 1 新增
+-- WITH user_data AS (
+--   SELECT email AS user_email, id
+--   FROM "USER"
+--   WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io')
+-- ),
+-- INSERT INTO "COACH" (user_id,experience_years)
+-- VALUES
+--   (
+--     (SELECT id FROM user_data WHERE user_email = 'lee2000@hexschooltest.io'), 2
+--   ),
+--   (
+--     (SELECT id FROM user_data WHERE user_email = 'muscle@hexschooltest.io'), 2
+--   ),
+--   (
+--     (SELECT id FROM user_data WHERE user_email = 'starplatinum@hexschooltest.io'), 2
+--   );
+INSERT INTO "COACH" (user_id, experience_years)
 VALUES
-  (
-    (SELECT id FROM user_data WHERE user_email = 'lee2000@hexschooltest.io'), 2
-  ),
-  (
-    (SELECT id FROM user_data WHERE user_email = 'muscle@hexschooltest.io'), 2
-  ),
-  (
-    (SELECT id FROM user_data WHERE user_email = 'starplatinum@hexschooltest.io'), 2
-  );
+  ((SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io'), 2),
+  ((SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io'), 2),
+  ((SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io'), 2);
 
 -- 3-2. 新增：承1，為三名教練新增專長資料至 `COACH_LINK_SKILL` ，資料需求如下：
     -- 1. 所有教練都有 `重訓` 專長
