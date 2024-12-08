@@ -94,6 +94,9 @@ LIMIT 3;
 -- 使用 CASCADE 時，所有依賴於該表的外鍵約束和其他物件（如視圖、索引）也會被刪除，請務必確認不會影響其他數據完整性
 -- DROP TABLE "CREDIT_PACKAGE" CASCADE;
 
+-- 執行前，確認資料
+-- SELECT * FROM "CREDIT_PACKAGE";
+
 -- 新增資料
 INSERT INTO "CREDIT_PACKAGE" (name, price, credit_amount)
 VALUES
@@ -101,11 +104,45 @@ VALUES
   ('14 堂組合包方案', 2520, 14),
   ('21 堂組合包方案', 4800, 21);
 
-
 -- 2-2. 新增：在 `CREDIT_PURCHASE` 資料表，新增三筆資料：（請使用 name 欄位做子查詢）
     -- 1. `王小明` 購買 `14 堂組合包方案`
     -- 2. `王小明` 購買 `21 堂組合包方案`
     -- 3. `好野人` 購買 `14 堂組合包方案`
+
+-- 執行前，確認資料
+-- SELECT id FROM "USER" WHERE name = '王小明';
+-- SELECT id FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案';
+
+WITH user_ids AS (
+  SELECT id AS user_id, name
+  FROM "USER" 
+  WHERE name IN ('王小明', '好野人')
+),
+package_data AS (
+  SELECT id AS credit_package_id, name, credit_amount, price
+  FROM "CREDIT_PACKAGE"
+  WHERE name IN ('14 堂組合包方案', '21 堂組合包方案')
+)
+INSERT INTO "CREDIT_PURCHASE" (user_id,credit_package_id,purchased_credits,price_paid)
+VALUES
+  (
+    (SELECT user_id FROM user_ids  WHERE name = '王小明'),
+    (SELECT credit_package_id FROM package_data WHERE name = '14 堂組合包方案'),
+    (SELECT credit_amount FROM package_data WHERE name = '14 堂組合包方案'),
+    (SELECT price FROM package_data WHERE name = '14 堂組合包方案')
+  ),
+  (
+    (SELECT user_id FROM user_ids  WHERE name = '王小明'),
+    (SELECT credit_package_id FROM package_data WHERE name = '21 堂組合包方案'),
+    (SELECT credit_amount FROM package_data WHERE name = '21 堂組合包方案'),
+    (SELECT price FROM package_data WHERE name = '21 堂組合包方案')
+  ),
+  (
+    (SELECT user_id FROM user_ids  WHERE name = '好野人'),
+    (SELECT credit_package_id FROM package_data WHERE name = '14 堂組合包方案'),
+    (SELECT credit_amount FROM package_data WHERE name = '14 堂組合包方案'),
+    (SELECT price FROM package_data WHERE name = '14 堂組合包方案')
+  );
 
 
 -- ████████  █████   █    ████   
