@@ -203,14 +203,14 @@ VALUES
 -- SELECT * FROM "COACH_LINK_SKILL";
 
 -- 新增
-INSERT INTO "COACH_LINK_SKILL" (coach_id,skill_id)
+INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id)
 VALUES
--- 李燕容
+  -- 李燕容
   (
     (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io')), 
     (SELECT id FROM "SKILL" WHERE name = '重訓')
   ),
--- 肌肉棒子
+  -- 肌肉棒子
   (
     (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io')), 
     (SELECT id FROM "SKILL" WHERE name = '重訓')
@@ -219,7 +219,7 @@ VALUES
     (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io')), 
     (SELECT id FROM "SKILL" WHERE name = '瑜伽')
   ),
--- Q太郎
+   -- Q太郎
   (
     (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')), 
     (SELECT id FROM "SKILL" WHERE name = '重訓')
