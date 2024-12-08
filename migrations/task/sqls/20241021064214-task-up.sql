@@ -113,6 +113,8 @@ VALUES
 -- SELECT id FROM "USER" WHERE name = '王小明';
 -- SELECT id FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案';
 
+-- Note: https://medium.com/jimmy-wang/sql-with-as%E9%80%B2%E8%A1%8C%E5%AD%90%E6%9F%A5%E8%A9%A2-cte-sql-004-e045147f0317
+-- 新增
 WITH user_ids AS (
   SELECT id AS user_id, name
   FROM "USER" 
@@ -156,6 +158,31 @@ VALUES
     -- 1. 將用戶`李燕容`新增為教練，並且年資設定為2年（提示：使用`李燕容`的email ，取得 `李燕容` 的 `id` ）
     -- 2. 將用戶`肌肉棒子`新增為教練，並且年資設定為2年
     -- 3. 將用戶`Q太郎`新增為教練，並且年資設定為2年
+
+-- 執行前，確認資料
+-- SELECT * FROM "COACH";
+
+-- SELECT id, name, email
+-- FROM "USER"
+-- WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io')
+
+-- 新增
+WITH user_data AS (
+  SELECT email AS user_email, id
+  FROM "USER"
+  WHERE email in ('lee2000@hexschooltest.io', 'muscle@hexschooltest.io', 'starplatinum@hexschooltest.io')
+)
+INSERT INTO "COACH" (user_id,experience_years)
+VALUES
+  (
+    (SELECT id FROM user_data WHERE user_email = 'lee2000@hexschooltest.io'), 2
+  ),
+  (
+    (SELECT id FROM user_data WHERE user_email = 'muscle@hexschooltest.io'), 2
+  ),
+  (
+    (SELECT id FROM user_data WHERE user_email = 'starplatinum@hexschooltest.io'), 2
+  );
 
 -- 3-2. 新增：承1，為三名教練新增專長資料至 `COACH_LINK_SKILL` ，資料需求如下：
     -- 1. 所有教練都有 `重訓` 專長
