@@ -91,6 +91,25 @@ LIMIT 3;
     -- 2. 名稱為`14 堂組合包方案`，價格為`2,520` 元，堂數為`14`
     -- 3. 名稱為 `21 堂組合包方案`，價格為`4,800` 元，堂數為`21`
 
+-- 使用 CASCADE 時，所有依賴於該表的外鍵約束和其他物件（如視圖、索引）也會被刪除，請務必確認不會影響其他數據完整性
+-- DROP TABLE "CREDIT_PACKAGE" CASCADE;
+
+-- 先檢查並建立資料表
+CREATE TABLE IF NOT EXISTS "CREDIT_PACKAGE" (
+    course_id SERIAL PRIMARY KEY,
+    course_name VARCHAR(100),
+    course_price NUMERIC,
+    course_count INTEGER
+);
+
+-- 新增資料
+INSERT INTO "CREDIT_PACKAGE" ("course_name", "course_price", "course_count")
+VALUES
+  ('7 堂組合包方案', 1400, 7),
+  ('14 堂組合包方案', 2520, 14),
+  ('21 堂組合包方案', 4800, 21);
+
+
 -- 2-2. 新增：在 `CREDIT_PURCHASE` 資料表，新增三筆資料：（請使用 name 欄位做子查詢）
     -- 1. `王小明` 購買 `14 堂組合包方案`
     -- 2. `王小明` 購買 `21 堂組合包方案`
