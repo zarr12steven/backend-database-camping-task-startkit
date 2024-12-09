@@ -279,6 +279,18 @@ WHERE name = ('空中瑜伽');
     -- 6. 最大授課人數`max_participants` 設定為10
     -- 7. 授課連結設定`meeting_url`為 https://test-meeting.test.io
 
+-- 執行前，確認資料
+INSERT INTO "COURSE" (user_id, skill_id, name, start_at, end_at, max_participants, meeting_url)
+VALUES
+  (
+    (SELECT id FROM "USER" WHERE name='李燕容'),
+    (SELECT id FROM "SKILL" WHERE name='重訓'),
+    '重訓基礎課',
+    '2024-11-25 14:00:00',
+    '2024-11-25 16:00:00',
+    10,
+    'https://test-meeting.test.io'
+  );
 
 -- ████████  █████   █    █████ 
 --   █ █   ██    █  █     █     
