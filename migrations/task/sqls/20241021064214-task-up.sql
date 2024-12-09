@@ -379,6 +379,16 @@ AND
 
 -- 5-6. 查詢：計算用戶王小明的購買堂數，顯示須包含以下欄位： user_id , total。 (需使用到 SUM 函式與 Group By)
 
+-- 查詢
+SELECT
+  user_id,
+  SUM(purchased_credits) AS total
+FROM "CREDIT_PURCHASE"
+WHERE
+  user_id = (SELECT id FROM "USER" WHERE name='王小明')
+GROUP BY
+  user_id;
+
 -- 5-7. 查詢：計算用戶王小明的已使用堂數，顯示須包含以下欄位： user_id , total。 (需使用到 Count 函式與 Group By)
 
 -- 5-8. [挑戰題] 查詢：請在一次查詢中，計算用戶王小明的剩餘可用堂數，顯示須包含以下欄位： user_id , remaining_credit
