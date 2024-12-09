@@ -279,7 +279,7 @@ WHERE name = ('空中瑜伽');
     -- 6. 最大授課人數`max_participants` 設定為10
     -- 7. 授課連結設定`meeting_url`為 https://test-meeting.test.io
 
--- 執行前，確認資料
+-- 新增
 INSERT INTO "COURSE" (user_id, skill_id, name, start_at, end_at, max_participants, meeting_url)
 VALUES
   (
@@ -309,6 +309,22 @@ VALUES
         -- 1. 預約人設為 `好野人`
         -- 2. 預約時間`booking_at` 設為2024-11-24 16:00:00
         -- 3. 狀態`status` 設定為即將授課
+
+-- 新增
+INSERT INTO "COURSE_BOOKING" (user_id, course_id, booking_at, status)
+VALUES
+  (
+    (SELECT id FROM "USER" WHERE name='王小明'),
+    (SELECT id FROM "COURSE" WHERE user_id = (SELECT id FROM "USER" WHERE name='李燕容')),
+    '2024-11-24 16:00:00',
+    '即將授課'
+  ),
+  (
+    (SELECT id FROM "USER" WHERE name='好野人'),
+    (SELECT id FROM "COURSE" WHERE user_id = (SELECT id FROM "USER" WHERE name='李燕容')),
+    '2024-11-24 16:00:00',
+    '即將授課'
+  );
 
 -- 5-2. 修改：`王小明`取消預約 `李燕容` 的課程，請在`COURSE_BOOKING`更新該筆預約資料：
     -- 1. 取消預約時間`cancelled_at` 設為2024-11-24 17:00:00
